@@ -1,0 +1,14 @@
+doctype html
+
+html
+  head
+    title Rapid Response Network
+    meta(name="viewport", content="initial-scale=1, maximum-scale=1, user-scalable=no")
+    include includes/default-styles
+  body
+    #root
+      div.loading-indicator-splash
+        | Loading..
+    script.
+      var packageVersion = "#{packageVersion}"
+    script(src="/static/js/bundle.js")
