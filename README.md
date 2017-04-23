@@ -1,7 +1,7 @@
 TODOs
 
 - Get access credentials for this app - CHECK
-- Set up dynamodb
+- Set up dynamodb - CHECK
 - create api project/or api routes embedded in this project
 - wire up client forms to api
 - create responder/attorney list mgt UI
