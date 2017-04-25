@@ -90,8 +90,8 @@ function subscribeToSNS(phoneNumber) {
 
   const params = {
     Endpoint: phoneNumber,
-    Protocol: 'sms', /* required */
-    TopicArn: 'arn:aws:sns:us-east-2:820240642131:callout-request-dev' //TODO: move to env var
+    Protocol: 'sms',
+    TopicArn: envCfg.rrnSnsTopic
   };
 
   return new Promise((ful, rej) => {
