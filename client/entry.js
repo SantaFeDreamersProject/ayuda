@@ -9,8 +9,7 @@ import { Router, Route, Redirect, browserHistory } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
 import thunkMiddleware from 'redux-thunk'
 import createLogger from 'redux-logger'
-
-import { loadUserFromSession } from 'client/actions/session'
+import apiMiddleware from 'client/middleware/api'
 
 require('client/style/app');
 
@@ -22,7 +21,8 @@ const store = createStore(
   reducers,
   applyMiddleware(
     thunkMiddleware, // lets us dispatch() functions
-    loggerMiddleware // neat middleware that logs actions
+    //loggerMiddleware, // neat middleware that logs actions
+    apiMiddleware
   ))
 const history = syncHistoryWithStore(browserHistory, store)
 
@@ -32,6 +32,7 @@ const history = syncHistoryWithStore(browserHistory, store)
 import CalloutPage from 'client/containers/pages/Callout'
 import ResponsePage from 'client/containers/pages/Response'
 import ResponderPage from 'client/containers/pages/Responder'
+import RespondersPage from 'client/containers/pages/Responders'
 import NotFoundPage from 'client/containers/pages/NotFound'
 
 const rootElement = document.getElementById('root')
@@ -43,9 +44,10 @@ render(
     <Provider store={store}>
       <Router history={history}>
         <Route path="/" component={App}>
-          <Route path="callout" component={CalloutPage}/>
-          <Route path="response/:calloutId" component={ResponsePage}/>
-          <Route path="responder" component={ResponderPage}/>
+          <Route path="callout/new" component={CalloutPage}/>
+          <Route path="response/:calloutId/new" component={ResponsePage}/>
+          <Route path="responder/new" component={ResponderPage}/>
+          <Route path="responders" component={RespondersPage}/>
           <Route path="404" component={NotFoundPage}/>
           <Redirect from="*" to="/404" />
         </Route>
@@ -57,4 +59,4 @@ render(
 /**
  * Load the user into state, if they have a session
  */
-store.dispatch(loadUserFromSession());
+//store.dispatch(loadUserFromSession());

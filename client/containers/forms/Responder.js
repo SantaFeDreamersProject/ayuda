@@ -1,71 +1,68 @@
 import React, { Component, PropTypes } from 'react'
 import { Row, Col, Input, Button } from 'bootstrap'
-import { reduxForm } from 'redux-form'
+import { Field, reduxForm } from 'redux-form'
 import FormInputRow from 'client/components/FormInputRow'
-
-export const fields = [
-  'name',
-  'phoneNumber',
-  'bilingual',
-  'location'
-]
 
 const validate = values => {
   const errors = {}
 
-  if (!values.name) {
-    errors.name = 'Required'
-  } else if (values.name.length < 5) {
-    errors.name = 'Must be more than 5 characters'
+  if (!values.Name) {
+    errors.Name = 'Required'
+  } else if (values.Name.length < 5) {
+    errors.Name = 'Must be more than 5 characters'
   }
 
-  if (!values.location) {
-    errors.location = 'Required'
-  } else if (values.location.length < 5) {
-    errors.location = 'Must be more than 5 characters'
+  if (!values.Location) {
+    errors.Location = 'Required'
+  } else if (values.Location.length < 5) {
+    errors.Location = 'Must be more than 5 characters'
   }
 
-  if (!values.canRespond) {
-    errors.canRespond = 'Required'
-  } else if ((values.canRespond !== "yes" && values.canRespond !== "no")) {
-    errors.canRespond = 'Must be "yes" or "no"'
+  if (!values.CanRespond) {
+    errors.CanRespond = 'Required'
+  } else if ((values.CanRespond !== "yes" && values.CanRespond !== "no")) {
+    errors.CanRespond = 'Must be "yes" or "no"'
   }
 
-  if (!values.phoneNumber) {
-    errors.phoneNumber = 'Required'
-  } else if (isNaN(Number(values.phoneNumber))) {
-    errors.phoneNumber = 'Must be a number with no dashes'
-  } else if (values.phoneNumber.length < 7) {
-    errors.phoneNumber = 'Must be at least 7 digits'
+  if (!values.Phone) {
+    errors.Phone = 'Required'
+  } else if (isNaN(Number(values.Phone))) {
+    errors.Phone = 'Must be a number with no dashes'
+  } else if (values.Phone.length < 7) {
+    errors.Phone = 'Must be at least 7 digits'
   }
 
   return errors
 }
 
+const renderField = ({ input, label, type, meta: { touched, error } }) => (
+ <div>
+   <label>{label}</label>
+   <div>
+     <input {...input} placeholder={label} type={type}/>
+     {touched && ((error && <span>{error}</span>))}
+   </div>
+ </div>
+)
+
 const ResponderForm = (props) => {
 
   const {
-    fields: {
-      name,
-      phoneNumber,
-      location,
-      bilingual
-    },
     colProps,
-    handleSubmit,
     resetForm,
-    onSubmit,
+    handleSubmit,
     submitting,
     saveButtonText
   } = props
 
   return (
+
     <form onSubmit={handleSubmit}>
-      <FormInputRow label="Responder Name" fieldState={name} />
-      <FormInputRow label="Phone Number" fieldState={phoneNumber} />
-      <FormInputRow label="Bilingual" fieldState={bilingual} />
-      <FormInputRow label="Location" fieldState={location} />
-      
+
+      <Field name="Name" type="text" component={FormInputRow} label="Responder Name"/>
+      <Field name="Phone" type="text" component={FormInputRow} label="Phone Number"/>
+      <Field name="Bilingual" type="text" component={FormInputRow} label="Bilingual?"/>
+      <Field name="Location" type="text" component={FormInputRow} label="Location"/>
       <Row>
         <Col {...colProps} className="text-center">
           <Button type="submit"
@@ -89,7 +86,6 @@ ResponderForm.propTypes = {
 }
 
 export default reduxForm({
-  form: 'callout',
-  fields,
+  form: 'responder',
   validate
 })(ResponderForm)

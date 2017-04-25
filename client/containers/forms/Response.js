@@ -1,31 +1,25 @@
 import React, { Component, PropTypes } from 'react'
 import { Row, Col, Input, Button } from 'bootstrap'
-import { reduxForm } from 'redux-form'
+import { Field, reduxForm } from 'redux-form'
 import FormInputRow from 'client/components/FormInputRow'
-
-export const fields = [
-  'name',
-  'canRespond',
-  'ETA'
-]
 
 const validate = values => {
   const errors = {}
 
-  if (!values.name) {
-    errors.name = 'Required'
-  } else if (values.name.length < 5) {
-    errors.name = 'Must be more than 5 characters'
+  if (!values.Name) {
+    errors.Name = 'Required'
+  } else if (values.Name.length < 5) {
+    errors.Name = 'Must be more than 5 characters'
   }
 
-  if (!values.canRespond) {
-    errors.canRespond = 'Required'
-  } else if ((values.canRespond !== "yes" && values.canRespond !== "no")) {
-    errors.canRespond = 'Must be "yes" or "no"'
+  if (!values.CanRespond) {
+    errors.CanRespond = 'Required'
+  } else if ((values.CanRespond !== "yes" && values.CanRespond !== "no")) {
+    errors.CanRespond = 'Must be "yes" or "no"'
   }
 
-  if (!values.ETA) {
-    errors.ETA = 'Required'
+  if (!values.Eta) {
+    errors.Eta = 'Required'
   }
 
   return errors
@@ -34,24 +28,19 @@ const validate = values => {
 const ResponseForm = (props) => {
 
   const {
-    fields: {
-      name,
-      canRespond,
-      ETA
-    },
     colProps,
     handleSubmit,
     resetForm,
-    onSubmit,
     submitting,
     saveButtonText
   } = props
 
   return (
     <form onSubmit={handleSubmit}>
-      <FormInputRow label="Name" fieldState={name} />
-      <FormInputRow label="Can Respond" fieldState={canRespond} />
-      <FormInputRow label="ETA" fieldState={ETA} />
+
+      <Field name="Name" type="text" component={FormInputRow} label="Responder Name"/>
+      <Field name="CanRespond" type="text" component={FormInputRow} label="Can you respond?"/>
+      <Field name="Eta" type="text" component={FormInputRow} label="ETA"/>
 
       <Row>
         <Col {...colProps} className="text-center">
@@ -70,13 +59,11 @@ ResponseForm.defaultProps = {
 }
 
 ResponseForm.propTypes = {
-  fields: PropTypes.object.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   submitting: PropTypes.bool.isRequired
 }
 
 export default reduxForm({
-  form: 'callout',
-  fields,
+  form: 'response',
   validate
 })(ResponseForm)

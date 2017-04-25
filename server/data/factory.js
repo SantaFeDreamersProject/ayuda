@@ -77,7 +77,8 @@ module.exports = (tableName) => {
 
       const Item = doc
       Item[`${tableName}Id`] = shortid.generate()
-      return _put(_getParams({Item}));
+      return _put(_getParams({Item}))
+        .then(() => Item);
 
     },
 

@@ -1,34 +1,40 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { ColumnProps } from 'client/constants/Layout'
 import ResponseForm from 'client/containers/forms/Response'
-
-const colProps = ColumnProps.General
+import { createResponse } from 'client/actions/response-copy'
+import { getCallout } from 'client/actions/callout'
 
 class ResponsePage extends Component {
   render() {
+
+    let { calloutId } = this.props.params
+
+    const onSubmit =
+      (response) =>
+        this.props.createResponse({...response, CalloutId: calloutId})
 
     return (
       <div>
         <h2 className="text-center">Respond to Callout</h2>
         <ResponseForm
-          onSubmit={() => {}}
+          onSubmit={onSubmit}
           submitting={false}
           />
-          
 
       </div>
     )
   }
+
+  componentDidMount() {
+    this.props.getCallout(this.props.params.calloutId)
+  }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = ({ callout }) => ({
+  callout
+})
 
-  //TODO..
-  return {}
-
-}
 export default connect(mapStateToProps, {
-  // someAction,
-  // TODO...actions
+  getCallout,
+  createResponse
 })(ResponsePage)

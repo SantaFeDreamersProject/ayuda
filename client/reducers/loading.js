@@ -1,4 +1,3 @@
-import {fromJS} from 'immutable'
 
 const reducer = (state = false, action) => {
   switch (action.type) {

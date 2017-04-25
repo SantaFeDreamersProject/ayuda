@@ -1,24 +1,24 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { ColumnProps } from 'client/constants/Layout'
 import ResponderForm from 'client/containers/forms/Responder'
-
-const colProps = ColumnProps.General
+import { createResponder } from 'client/actions/responder'
 
 class ResponderPage extends Component {
+
   render() {
 
     return (
       <div>
         <h2 className="text-center">New Responder</h2>
         <ResponderForm
-          onSubmit={() => {}}
+          onSubmit={(responder) => this.props.createResponder(responder)}
           submitting={false}
           />
 
       </div>
     )
   }
+
 }
 
 const mapStateToProps = state => {
@@ -28,6 +28,5 @@ const mapStateToProps = state => {
 
 }
 export default connect(mapStateToProps, {
-  // someAction,
-  // TODO...actions
+  createResponder
 })(ResponderPage)

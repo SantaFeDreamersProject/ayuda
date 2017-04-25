@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { ColumnProps } from 'client/constants/Layout'
 import CalloutForm from 'client/containers/forms/Callout'
-
-const colProps = ColumnProps.General
+import { createCallout } from 'client/actions/callout'
 
 class CalloutPage extends Component {
   render() {
@@ -12,7 +10,7 @@ class CalloutPage extends Component {
       <div>
         <h2 className="text-center">Initiate Callout</h2>
         <CalloutForm
-          onSubmit={() => {}}
+          onSubmit={(callout) => this.props.createCallout(callout)}
           submitting={false}
           />
 
@@ -22,12 +20,8 @@ class CalloutPage extends Component {
 }
 
 const mapStateToProps = state => {
-
-  //TODO..
   return {}
-
 }
 export default connect(mapStateToProps, {
-  // someAction,
-  // TODO...actions
+  createCallout
 })(CalloutPage)
