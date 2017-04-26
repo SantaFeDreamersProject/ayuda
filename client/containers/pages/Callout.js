@@ -6,6 +6,16 @@ import { createCallout } from 'client/actions/callout'
 class CalloutPage extends Component {
   render() {
 
+    let { calloutSubmitted } = this.props
+
+    if (calloutSubmitted) {
+      return (
+        <div>
+          <h1 className="text-center">Callout initiated.</h1>
+        </div>
+      )
+    }
+
     return (
       <div>
         <h2 className="text-center">Initiate Callout</h2>
@@ -19,9 +29,8 @@ class CalloutPage extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {}
-}
+const mapStateToProps = ({ calloutSubmitted }) => ({calloutSubmitted})
+
 export default connect(mapStateToProps, {
   createCallout
 })(CalloutPage)

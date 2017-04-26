@@ -6,14 +6,17 @@ TODOs
 - wire up client forms to api - CHECK
 - create SNS topic - CHECK
 - subscribe responder to SNS topic once added - CHECK
-- send SNS message to SNS topic when a callout is created
-- send text message to callout person when someone responds
-- send SNS message to SNS topic when someone responds, letting other responders know
+- send SNS message to SNS topic when a callout is created - CHECK
+- send text message to callout person when someone responds - CHECK
+- send SNS message to SNS topic when someone responds, letting other responders know - CHECK
+- show success message after submission of callout - CHECK
+- show success message after submission of responder - CHECK
+- show request details on the response form (above the form so respondee can see them) - CHECK
+- show success message after submission of response - CHECK
+- show full request/callout details after response has been submitted - CHECK
 - wire up delete responder in responder list
 - when responder is deleted, notify via sns?
-- show success message after submissions
-- redirect responder submission back to list of responders page
-- show request details on the response form (above the form so respondee can see them)
+- don't let people respond if callout is already responded to (at API level)
 
 
 ## Things to do later ...

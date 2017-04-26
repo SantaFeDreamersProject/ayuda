@@ -1,8 +1,8 @@
 
-const reducer = (state = [], action) => {
-  switch (action.type) {
+const reducer = (state = [], { type, response }) => {
+  switch (type) {
     case 'GET_RESPONDERS_SUCCESS':
-      return action.response;
+      return response;
     default:
       return state
   }

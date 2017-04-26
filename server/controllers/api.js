@@ -31,7 +31,12 @@ var ApiController = {
 
   createCallout: function(request, reply) {
 
+    let response;
+
     let promise = data.Callout.create(request.payload)
+      .then(res => response = res)
+      .then(() => sendMessageToSNS(`Urgent situation, please go to ${envCfg.rrnBaseUrl}/response/${response.CalloutId}/new for details`))
+      .then(() => response)
 
     utils.standardResponse(promise, request, reply)
 
@@ -39,12 +44,24 @@ var ApiController = {
 
   createResponse: function(request, reply) {
 
+    let response,
+    callout;
+
     let promise = data.Callout.get(request.payload.CalloutId)
-      .then(callout => {
-        if (callout) {
+      .then(c => {
+        callout = c;
+        if (c) {
           return data.Response.create(request.payload)
         }
       })
+      .then(res => response = res)
+      .then(() => {
+        if (response.CanRespond === 'yes') {
+          return sendMessageToPhoneNumber(callout.Phone, `An attorney is on the way. ETA is ${response.Eta}. His name is ${response.Name}`)
+            .then(() => sendMessageToSNS(`${response.Name} is responding to Callout ${callout.CalloutId}, you can stand down.`))
+        }
+      })
+      .then(() => response)
 
     utils.standardResponse(promise, request, reply)
 

@@ -7,10 +7,10 @@ function ResponderListItem({ item, onClick, onRemove }) {
 
   return (
     <Row>
-      <Col lg="3"><a onClick={() => onClick(item)}>{item.name}</a></Col>
-      <Col lg="1">{item.bilingual}</Col>
-      <Col lg="3">{item.location}</Col>
-      <Col lg="2">{item.phone}</Col>
+      <Col lg="3"><a onClick={() => onClick(item)}>{item.Name}</a></Col>
+      <Col lg="1">{item.Bilingual}</Col>
+      <Col lg="3">{item.Location}</Col>
+      <Col lg="2">{item.Phone}</Col>
       <Col lg="1"><a onClick={() => onRemove(item)}>Remove</a></Col>
     </Row>
   )

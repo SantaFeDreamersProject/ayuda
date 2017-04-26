@@ -3,19 +3,54 @@ import { connect } from 'react-redux'
 import ResponseForm from 'client/containers/forms/Response'
 import { createResponse } from 'client/actions/response-copy'
 import { getCallout } from 'client/actions/callout'
+import { Row, Col, Input, Button } from 'bootstrap'
 
 class ResponsePage extends Component {
   render() {
 
     let { calloutId } = this.props.params
+    let { callout, createResponse, isSubmitted, isResponding } = this.props;
 
     const onSubmit =
       (response) =>
-        this.props.createResponse({...response, CalloutId: calloutId})
+        createResponse({...response, CalloutId: calloutId})
+
+    let calloutInfoNode;
+
+    if (callout) {
+      calloutInfoNode = (
+        <Row>
+          <Col className="text-center">
+            <h2 className="text-center">Details of situation</h2>
+            <strong>Name of client:</strong> {callout.Name} <br/>
+            <strong>Location:</strong> {callout.Location} <br/>
+            <strong>Details:</strong> {callout.Details} <br/>
+            {isSubmitted && isResponding && <div><strong>Phone:</strong> {callout.Phone} <br/></div>}
+          </Col>
+        </Row>
+      )
+    }
+
+    if (isSubmitted) {
+      return (
+        <div>
+          {calloutInfoNode}
+          <Row>
+            <Col className="text-center">
+              <h1>Thank you for your submission</h1>
+            </Col>
+          </Row>
+        </div>
+      )
+    }
 
     return (
       <div>
+
+        {calloutInfoNode}
+
         <h2 className="text-center">Respond to Callout</h2>
+
         <ResponseForm
           onSubmit={onSubmit}
           submitting={false}
@@ -29,9 +64,16 @@ class ResponsePage extends Component {
   }
 }
 
-const mapStateToProps = ({ callout }) => ({
-  callout
-})
+//
+
+const mapStateToProps = ({ callout, responseSubmissions }) => {
+  let isSubmitted = callout && responseSubmissions[callout.CalloutId]
+  return {
+    callout,
+    isSubmitted,
+    isResponding: isSubmitted && responseSubmissions[callout.CalloutId].CanRespond === 'yes'
+  }
+}
 
 export default connect(mapStateToProps, {
   getCallout,

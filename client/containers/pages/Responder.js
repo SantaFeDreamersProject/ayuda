@@ -7,6 +7,17 @@ class ResponderPage extends Component {
 
   render() {
 
+    let { responderSubmitted } = this.props;
+
+    if (responderSubmitted) {
+      return (
+        <div>
+          <h1 className="text-center">Responder Created.</h1>
+          <a href="/responders">OK</a>
+        </div>
+      )
+    }
+
     return (
       <div>
         <h2 className="text-center">New Responder</h2>
@@ -21,12 +32,8 @@ class ResponderPage extends Component {
 
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = ({ responderSubmitted }) => ({responderSubmitted})
 
-  //TODO..
-  return {}
-
-}
 export default connect(mapStateToProps, {
   createResponder
 })(ResponderPage)
