@@ -112,7 +112,6 @@ function subscribeToSNS(phoneNumber) {
 
   return _sns("subscribe", {
     Endpoint: `+1${phoneNumber}`,
-    //Endpoint: '+1 972 689 1599',
     Protocol: 'sms',
     TopicArn: envCfg.rrnSnsTopic
   })
