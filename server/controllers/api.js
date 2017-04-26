@@ -1,9 +1,9 @@
-var _ = require('underscore');
-
-var envCfg = require('../../env'),
+const AWS = require("aws-sdk"),
+  _ = require('underscore'),
   constants = require('../constants'),
   utils = require('./utils'),
-  Boom = require('boom');
+  Boom = require('boom'),
+  envCfg = require('../../env');
 
 const data = require('../data')
 
@@ -52,8 +52,12 @@ var ApiController = {
 
   createResponder: function(request, reply) {
 
+    let responder;
+
     let promise = data.Responder.create(request.payload)
-      .then(responder => subscribeToSNS(responder.phone))
+      .then(result => responder = result)
+      .then(() => subscribeToSNS(responder.Phone))
+      .then(() => sendMessageToPhoneNumber(responder.Phone, "You've been added to the RRN responder list."))
 
     utils.standardResponse(promise, request, reply)
   },
@@ -80,26 +84,55 @@ module.exports = ApiController;
 
 
 /**
+ * SNS helper
+ * @param  {[type]} method [description]
+ * @param  {[type]} params [description]
+ * @return [type]          [description]
+ */
+function _sns(method, params) {
+
+  const sns = new AWS.SNS();
+
+  return new Promise((ful, rej) => {
+    sns[method](params, function(err, data) {
+      if (err) return rej(err)
+      ful(data)
+    });
+
+  })
+
+}
+
+/**
  * Sign up responder to SNS topic
  * @param  {[type]} phoneNumber [description]
  * @return [type]               [description]
  */
 function subscribeToSNS(phoneNumber) {
 
-  const sns = new AWS.SNS();
-
-  const params = {
-    Endpoint: phoneNumber,
+  return _sns("subscribe", {
+    Endpoint: `+1${phoneNumber}`,
+    //Endpoint: '+1 972 689 1599',
     Protocol: 'sms',
     TopicArn: envCfg.rrnSnsTopic
-  };
+  })
 
-  return new Promise((ful, rej) => {
-    sns.subscribe(params, function(err, data) {
-      if (err) return rej(err)
-      ful(data)
-    });
+}
 
+function sendMessageToPhoneNumber(phoneNumber, message) {
+
+  return _sns("publish", {
+    Message: message,
+    PhoneNumber: `+1${phoneNumber}`
+  })
+
+}
+
+function sendMessageToSNS(message) {
+
+  return _sns("publish", {
+    Message: message,
+    TargetArn: envCfg.rrnSnsTopic
   })
 
 }

@@ -20,7 +20,6 @@ class ResponsePage extends Component {
           onSubmit={onSubmit}
           submitting={false}
           />
-
       </div>
     )
   }

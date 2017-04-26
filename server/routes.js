@@ -73,7 +73,7 @@ function _applyRoutes(server) {
        validate: {
          payload: {
            Name: Joi.string().required(),
-           Phone: Joi.string().required(),
+           Phone: Joi.string().length(10).required(),
            Location: Joi.string().required(),
            Details: Joi.string().required()
          }
@@ -118,7 +118,7 @@ function _applyRoutes(server) {
        validate: {
          payload: {
            Name: Joi.string().required(),
-           Phone: Joi.string().required(),
+           Phone: Joi.string().length(10).required(),
            Bilingual: Joi.string().required().allow(['yes', 'no']),
            Location: Joi.string().required()
          }

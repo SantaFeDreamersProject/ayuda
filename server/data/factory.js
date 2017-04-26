@@ -2,7 +2,7 @@ const AWS = require("aws-sdk");
 const shortid = require('shortid');
 
 AWS.config.update({
-  region: "us-east-2"
+  region: "us-east-1"
 });
 
 module.exports = (tableName) => {

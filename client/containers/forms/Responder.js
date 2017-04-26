@@ -28,8 +28,8 @@ const validate = values => {
     errors.Phone = 'Required'
   } else if (isNaN(Number(values.Phone))) {
     errors.Phone = 'Must be a number with no dashes'
-  } else if (values.Phone.length < 7) {
-    errors.Phone = 'Must be at least 7 digits'
+  } else if (values.Phone.length !== 10) {
+    errors.Phone = 'Must be a 10 digit number'
   }
 
   return errors
