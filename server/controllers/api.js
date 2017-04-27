@@ -3,6 +3,7 @@ const AWS = require("aws-sdk"),
   constants = require('../constants'),
   utils = require('./utils'),
   Boom = require('boom'),
+  errors = require('./errors')
   envCfg = require('../../env');
 
 const data = require('../data')
@@ -45,23 +46,31 @@ var ApiController = {
   createResponse: function(request, reply) {
 
     let response,
-    callout;
+      callout,
+      calloutId = request.payload.CalloutId;
 
-    let promise = data.Callout.get(request.payload.CalloutId)
+    let promise = data.Response.getBy({CalloutId: calloutId})
+      .then(responses => {
+        if (_.any(responses, (r) => r.CanRespond === 'yes')) throw new errors.ConflictError()
+      })
+      .then(() => data.Callout.get(calloutId))
       .then(c => {
-        callout = c;
-        if (c) {
-          return data.Response.create(request.payload)
-        }
+        if (!c) throw new errors.NotFoundError();
+        return c
       })
-      .then(res => response = res)
       .then(() => {
-        if (response.CanRespond === 'yes') {
-          return sendMessageToPhoneNumber(callout.Phone, `An attorney is on the way. ETA is ${response.Eta}. His name is ${response.Name}`)
-            .then(() => sendMessageToSNS(`${response.Name} is responding to Callout ${callout.CalloutId}, you can stand down.`))
+        if (callout) {
+          return data.Response.create(request.payload)
+            .then(res => response = res)
+            .then(() => {
+              if (response.CanRespond === 'yes') {
+                return sendMessageToPhoneNumber(callout.Phone, `An attorney is on the way. ETA is ${response.Eta}. His name is ${response.Name}`)
+                  .then(() => sendMessageToSNS(`${response.Name} is responding to Callout ${calloutId}, you can stand down.`))
+              }
+            })
+            .then(() => response)
         }
       })
-      .then(() => response)
 
     utils.standardResponse(promise, request, reply)
 

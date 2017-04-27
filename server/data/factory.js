@@ -60,7 +60,7 @@ module.exports = (tableName) => {
   const _remove = (params) => _promisify("delete", params),
         _put = (params) => _promisify("put", params),
         _get = (params) => _promisify("get", params),
-        _scan = () => _promisify("scan", _getParams({}));
+        _scan = (params = {}) => _promisify("scan", _getParams());
 
   /**
    * CRUD external API
@@ -104,6 +104,11 @@ module.exports = (tableName) => {
       return _get(_getKeyParams(id))
         .then(res => res.Item);
 
+    },
+
+    getBy: function(params) {
+      return _scan(_getParams(params))
+        .then(res => res.Items);
     },
 
     /**

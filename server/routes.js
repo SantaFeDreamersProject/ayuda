@@ -103,6 +103,7 @@ function _applyRoutes(server) {
          payload: {
            CalloutId: Joi.string().required(),
            Name: Joi.string().required(),
+           Phone: Joi.string().length(10).required(),
            CanRespond: Joi.string().required().allow(['yes', 'no']),
            Eta: Joi.string().required()
          }

@@ -22,6 +22,14 @@ const validate = values => {
     errors.Eta = 'Required'
   }
 
+  if (!values.Phone) {
+    errors.Phone = 'Required'
+  } else if (isNaN(Number(values.Phone))) {
+    errors.Phone = 'Must be a number with no dashes'
+  } else if (values.Phone.length !== 10) {
+    errors.Phone = 'Must be a 10 digit number'
+  }
+
   return errors
 }
 
@@ -39,6 +47,7 @@ const ResponseForm = (props) => {
     <form onSubmit={handleSubmit}>
 
       <Field name="Name" type="text" component={FormInputRow} label="Responder Name"/>
+      <Field name="Phone" type="text" component={FormInputRow} label="Phone Number"/>
       <Field name="CanRespond" type="text" component={FormInputRow} label="Can you respond?"/>
       <Field name="Eta" type="text" component={FormInputRow} label="ETA"/>
 

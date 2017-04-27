@@ -14,10 +14,12 @@ TODOs
 - show request details on the response form (above the form so respondee can see them) - CHECK
 - show success message after submission of response - CHECK
 - show full request/callout details after response has been submitted - CHECK
+- don't let people respond if callout is already responded to (at API level) - CHECK
+- alert user if there is a failure to submit callout form
+- alert user if there is a failure to submit response form
+- alert user if there is a failure to submit responder form
 - wire up delete responder in responder list
 - when responder is deleted, notify via sns?
-- don't let people respond if callout is already responded to (at API level)
-
 
 ## Things to do later ...
 
