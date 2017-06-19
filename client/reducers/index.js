@@ -6,6 +6,7 @@ import responseSubmissions from 'client/reducers/responseSubmissions'
 import calloutSubmitted from 'client/reducers/calloutSubmitted'
 import responderSubmitted from 'client/reducers/responderSubmitted'
 import callout from 'client/reducers/callout'
+import error from 'client/reducers/error'
 import { reducer as formReducer } from 'redux-form'
 
 const reducers = combineReducers({
@@ -15,6 +16,7 @@ const reducers = combineReducers({
   responderSubmitted,
   responseSubmissions,
   callout,
+  error,
   form: formReducer,
   routing: routerReducer
 })

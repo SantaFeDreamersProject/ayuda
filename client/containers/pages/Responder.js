@@ -22,7 +22,10 @@ class ResponderPage extends Component {
       <div>
         <h2 className="text-center">New Responder</h2>
         <ResponderForm
-          onSubmit={(responder) => this.props.createResponder(responder)}
+          onSubmit={(responder) => {
+            delete responder.Agree
+            this.props.createResponder(responder)
+          }}
           submitting={false}
           />
 

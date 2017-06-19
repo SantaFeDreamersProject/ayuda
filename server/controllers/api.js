@@ -36,7 +36,8 @@ var ApiController = {
 
     let promise = data.Callout.create(request.payload)
       .then(res => response = res)
-      .then(() => sendMessageToSNS(`Urgent situation, please go to ${envCfg.rrnBaseUrl}/response/${response.CalloutId}/new for details`))
+      .then(() => sendMessageToSNS(`Urgent situation, please go to the following URL for details`))
+      .then(() => sendMessageToSNS(`${envCfg.rrnBaseUrl}/response/${response.CalloutId}/new`))
       .then(() => response)
 
     utils.standardResponse(promise, request, reply)
@@ -48,24 +49,25 @@ var ApiController = {
     let response,
       callout,
       calloutId = request.payload.CalloutId;
+      console.log(calloutId)
 
-    let promise = data.Response.getBy({CalloutId: calloutId})
-      .then(responses => {
-        if (_.any(responses, (r) => r.CanRespond === 'yes')) throw new errors.ConflictError()
-      })
+    let promise = data.Response.getBy()
+      // .then(responses => {
+      //   if (_.any(responses, (r) => r.CanRespond === 'yes' && r.CalloutId === calloutId)) throw new errors.ConflictError()
+      // })
       .then(() => data.Callout.get(calloutId))
       .then(c => {
         if (!c) throw new errors.NotFoundError();
         return c
       })
-      .then(() => {
+      .then((callout) => {
         if (callout) {
           return data.Response.create(request.payload)
             .then(res => response = res)
             .then(() => {
               if (response.CanRespond === 'yes') {
-                return sendMessageToPhoneNumber(callout.Phone, `An attorney is on the way. ETA is ${response.Eta}. His name is ${response.Name}`)
-                  .then(() => sendMessageToSNS(`${response.Name} is responding to Callout ${calloutId}, you can stand down.`))
+                return sendMessageToPhoneNumber(callout.Phone, `An attorney is on the way. ETA is ${response.Eta}. Their name is ${response.Name}`)
+                  .then(() => sendMessageToSNS(`${response.Name} is responding to Callout ${calloutId}.`))
               }
             })
             .then(() => response)
@@ -80,10 +82,12 @@ var ApiController = {
 
     let responder;
 
+    const message = "You've been added to the Santa Fe Rapid Response Immigrant Protection Network."
+
     let promise = data.Responder.create(request.payload)
       .then(result => responder = result)
       .then(() => subscribeToSNS(responder.Phone))
-      .then(() => sendMessageToPhoneNumber(responder.Phone, "You've been added to the RRN responder list."))
+      .then(() => sendMessageToPhoneNumber(responder.Phone, message))
 
     utils.standardResponse(promise, request, reply)
   },

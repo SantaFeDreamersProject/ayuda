@@ -13,25 +13,6 @@ const colProps = {
   className: 'text-center'
 }
 
-// export default ({label, fieldState }) => {
-//   return (
-//     <div>
-//       <Row>
-//         <Col {...colProps} className="text-left">
-//           <label>{label}</label>
-//         </Col>
-//       </Row>
-//       <Row>
-//         <Col {...colProps} className="text-center">
-//           <FormControl type="text" {...fieldState}/>
-//           {fieldState.touched && fieldState.error && <div>{fieldState.error}</div>}
-//         </Col>
-//       </Row>
-//     </div>
-//   )
-// }
-
-
 export default ({ input, label, type, meta: { touched, error } }) => (
  <div>
    <Row>

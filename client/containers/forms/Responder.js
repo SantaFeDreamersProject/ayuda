@@ -32,6 +32,10 @@ const validate = values => {
     errors.Phone = 'Must be a 10 digit number'
   }
 
+  if (!values.Agree) {
+    errors.Agree = 'Required'
+  }
+
   return errors
 }
 
@@ -58,11 +62,22 @@ const ResponderForm = (props) => {
   return (
 
     <form onSubmit={handleSubmit}>
-
       <Field name="Name" type="text" component={FormInputRow} label="Responder Name"/>
       <Field name="Phone" type="text" component={FormInputRow} label="Phone Number"/>
       <Field name="Bilingual" type="text" component={FormInputRow} label="Bilingual?"/>
       <Field name="Location" type="text" component={FormInputRow} label="Location"/>
+      <Row>
+        <Col {...colProps}>
+          <p>
+            By providing my information confidentially to this site for internal use at Santa Fe Dreamers and Somos Un Pueblo Unido, I understand that I assume any risk associated with my involvement in this service, and/or my actions. I hereby hold harmless all persons and agencies involved in organizing and coordinating this service from any potential liability for my involvement and/or my actions.
+          </p>
+          <Field
+            name="Agree"
+            type="checkbox"
+            component={FormInputRow}
+            label="Agree" />
+        </Col>
+      </Row>
       <Row>
         <Col {...colProps} className="text-center">
           <Button type="submit"

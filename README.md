@@ -15,9 +15,12 @@ TODOs
 - show success message after submission of response - CHECK
 - show full request/callout details after response has been submitted - CHECK
 - don't let people respond if callout is already responded to (at API level) - CHECK
-- alert user if there is a failure to submit callout form
-- alert user if there is a failure to submit response form
-- alert user if there is a failure to submit responder form
+- alert user if there is a failure to submit callout form - CHECK
+- alert user if there is a failure to submit response form - CHECK
+- alert user if there is a failure to submit responder form - CHECK
+
+- put it on AWS
+- set up subdomain, point it at AWS host
 - wire up delete responder in responder list
 - when responder is deleted, notify via sns?
 
