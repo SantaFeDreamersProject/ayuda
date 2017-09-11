@@ -73,7 +73,7 @@ function _applyRoutes(server) {
        validate: {
          payload: {
            Name: Joi.string().required(),
-           Phone: Joi.string().length(10).required(),
+           Phone: Joi.string().required(),
            Location: Joi.string().required(),
            Details: Joi.string().required()
          }
@@ -103,8 +103,8 @@ function _applyRoutes(server) {
          payload: {
            CalloutId: Joi.string().required(),
            Name: Joi.string().required(),
-           Phone: Joi.string().length(10).required(),
-           CanRespond: Joi.string().required().allow(['yes', 'no']),
+           Phone: Joi.string().required(),
+           CanRespond: Joi.string().required(),
            Eta: Joi.string().required()
          }
        }
@@ -119,8 +119,8 @@ function _applyRoutes(server) {
        validate: {
          payload: {
            Name: Joi.string().required(),
-           Phone: Joi.string().length(10).required(),
-           Bilingual: Joi.string().required().allow(['yes', 'no']),
+           Phone: Joi.string().required(),
+           Bilingual: Joi.string().required(),
            Location: Joi.string().required()
          }
        }

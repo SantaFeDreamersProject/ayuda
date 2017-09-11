@@ -8,13 +8,14 @@ const validate = values => {
 
   if (!values.Name) {
     errors.Name = 'Required'
-  } else if (values.Name.length < 5) {
-    errors.Name = 'Must be more than 5 characters'
+  } else if (values.Name.length < 2) {
+    errors.Name = 'Must be more than 2 characters'
   }
 
   if (!values.CanRespond) {
     errors.CanRespond = 'Required'
-  } else if ((values.CanRespond !== "yes" && values.CanRespond !== "no")) {
+  } else if ((values.CanRespond.toLowerCase() !== "yes" &&
+              values.CanRespond.toLowerCase() !== "no")) {
     errors.CanRespond = 'Must be "yes" or "no"'
   }
 
@@ -24,10 +25,12 @@ const validate = values => {
 
   if (!values.Phone) {
     errors.Phone = 'Required'
-  } else if (isNaN(Number(values.Phone))) {
-    errors.Phone = 'Must be a number with no dashes'
-  } else if (values.Phone.length !== 10) {
-    errors.Phone = 'Must be a 10 digit number'
+  }
+  // else if (isNaN(Number(values.Phone))) {
+  //   errors.Phone = 'Must be a number with no dashes'
+  // }
+  else if (values.Phone.length < 7) {
+    errors.Phone = 'Must be at least 7 digits'
   }
 
   return errors
