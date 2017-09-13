@@ -65,7 +65,7 @@ var ApiController = {
           return data.Response.create(request.payload)
             .then(res => response = res)
             .then(() => {
-              if (response.CanRespond === 'yes') {
+              if (response.CanRespond.toLowerCase() === 'yes') {
                 return sendMessageToPhoneNumber(callout.Phone, `An attorney is on the way. ETA is ${response.Eta}. Their name is ${response.Name}`)
                   .then(() => sendMessageToSNS(`${response.Name} is responding to Callout ${calloutId}.`))
               }
