@@ -133,6 +133,19 @@ function _applyRoutes(server) {
      handler: apiController.getResponders
    });
 
+   server.route({
+     method: "DELETE",
+     path: "/api/responder/{id}",
+     handler: apiController.removeResponder,
+     config: {
+       validate: {
+         params: {
+           id: Joi.string().required()
+         }
+       }
+     }
+   });
+
 
    /**
     *  [END] API routes

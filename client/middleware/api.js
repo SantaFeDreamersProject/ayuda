@@ -11,7 +11,8 @@ const callAPIMiddleware = ({ dispatch, getState }) => {
       type,
       callAPI,
       useCache = () => true,
-      payload = {}
+      payload = {},
+      params
     } = action
 
     if (!type) {
@@ -53,7 +54,8 @@ const callAPIMiddleware = ({ dispatch, getState }) => {
         console.log('***************')
         dispatch(Object.assign({}, payload, {
           response,
-          type: successType
+          type: successType,
+          params
         }))
       },
       error => {

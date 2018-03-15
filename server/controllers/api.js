@@ -49,7 +49,6 @@ var ApiController = {
     let response,
       callout,
       calloutId = request.payload.CalloutId;
-      console.log(calloutId)
 
     let promise = data.Response.getBy()
       // .then(responses => {
@@ -84,9 +83,9 @@ var ApiController = {
 
     const message = "You've been added to the Santa Fe Rapid Response Immigrant Protection Network."
 
-    let promise = data.Responder.create(request.payload)
+    const promise = subscribeToSNS(request.payload.Phone)
+      .then(({ SubscriptionArn }) => data.Responder.create(Object.assign(request.payload, {SubscriptionArn})))
       .then(result => responder = result)
-      .then(() => subscribeToSNS(responder.Phone))
       .then(() => sendMessageToPhoneNumber(responder.Phone, message))
 
     utils.standardResponse(promise, request, reply)
@@ -94,7 +93,9 @@ var ApiController = {
 
   removeResponder: function(request, reply) {
 
-    let promise = data.Responder.remove(request.params.id)
+    const promise = data.Responder.get(request.params.id)
+      .then(Responder => unsubscribeFromSNS(Responder.SubscriptionArn))
+      .then(() => data.Responder.remove(request.params.id))
 
     utils.standardResponse(promise, request, reply)
 
@@ -129,6 +130,19 @@ function _sns(method, params) {
       ful(data)
     });
 
+  })
+
+}
+
+/**
+ * Remove responder from SNS topic
+ * @param  {[type]} SubscriptionArn [description]
+ * @return [type]               [description]
+ */
+function unsubscribeFromSNS(SubscriptionArn) {
+
+  return _sns("unsubscribe", {
+    SubscriptionArn
   })
 
 }

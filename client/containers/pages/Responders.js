@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import ResponderList from 'client/components/ResponderList'
-import { getResponders } from 'client/actions/responder'
+import {
+  getResponders,
+  removeResponder
+} from 'client/actions/responder'
 import { Row, Col, Button, Panel } from 'bootstrap'
 import { ColumnProps } from 'client/constants/Layout'
 
@@ -15,7 +18,9 @@ class RespondersPage extends Component {
           <Col {...ColumnProps.OneHundred}>
             <h2 className="text-center">Responders</h2>
             <ResponderList
-              items={this.props.responders} onClick={() => {}} onRemove={() => {}}/>
+              items={this.props.responders}
+              onClick={() => {}}
+              onRemove={(responder) => this.props.removeResponder(responder.ResponderId)}/>
           </Col>
         </Row>
         <Row>
@@ -38,5 +43,6 @@ class RespondersPage extends Component {
 const mapStateToProps = ({ responders }) => ({responders})
 
 export default connect(mapStateToProps, {
-  getResponders
+  getResponders,
+  removeResponder
 })(RespondersPage)

@@ -21,9 +21,6 @@ module.exports = {
 
         if (!doc) return reply(boom.notFound());
 
-        //For delete, don't expect an object
-        if (request && request.method === 'delete') return reply(null).code(200);
-
         reply(doc)
 
       })

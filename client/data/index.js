@@ -15,13 +15,18 @@ const _req = (method, url, body) => {
     if (response.status >= 400) {
       throw new Error("Bad response from server");
     }
-    return response.json();
+
+    if (response && response.json) return response.json();
   })
 
 }
 
 export const createResponder = (payload) => {
   return _req('POST', '/api/responder', payload)
+}
+
+export const removeResponder = (id) => {
+  return _req('DELETE', `/api/responder/${id}`)
 }
 
 export const getResponders = () => {
